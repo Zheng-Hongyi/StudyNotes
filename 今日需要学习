@@ -1,0 +1,17 @@
+今日需要了解
+来源 《携程移动App架构优化之旅》
+1、Netflix的开源项目Zuul (Gateway)
+  Zuul:网站和设备访问Netflix后端的前门。是一个边缘服务的app，可以负责动态路由选择，监听、心跳和安全。
+  Zuul采用了一系列过滤器来使得我们可以在我们的边缘服务中快速敏捷的应用一些功能。
+  https://github.com/Netflix/zuul
+2、打包时的资源问题通过Run Script 和 Gradle 来定制化解决
+   iOS可以在系统中采用任何脚本语言
+3、App网络服务方面的优化手段：
+  a、使用TCP长连接实现网络服务，减少网络连接时间
+  b、根据网络状况2G/3G/4G/WIFI进行调优参数
+  c、根据连接/读/写不同阶段使用重试机制
+  d、使用IP列表避免DNS解析失败或者劫持，无需进行DNS解析
+  e、根据网络延迟选择服务端IP（使用Ping）
+  f、使用ProtocolBuffer+Gzip减少Payload
+4、携程的Hybrid框架
+5、JSPatch
