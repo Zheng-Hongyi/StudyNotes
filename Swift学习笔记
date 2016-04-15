@@ -1,0 +1,24 @@
+Swift学习笔记
+
+一、基础语法
+var let
+1、Computed Properties（Getters and Setters）主要用于在运行时计算
+   var timeLeft = 30
+   var score:Int {
+   get {
+    return timeLeft *25
+   }
+   }
+   print(score)
+2、Inference 推断类型 type safety
+3、Decimal, default for all numbers
+4、Any 可以是任何类型
+   var pi :Any?
+   pi = 3.14
+   pi is Double // true
+   pi is Float  // false
+   // is 返回一个Boolean
+5、Swift对于合并非产严格，合并的两者必须类型一致
+6、\() 把一个变量搞成string
+7、Optionals （？） 仅仅适用于Swift，并且被广泛使用
+8、Implicitly Unwrapped Optionals （！）
