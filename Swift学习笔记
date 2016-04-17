@@ -21,4 +21,61 @@ var let
 5、Swift对于合并非产严格，合并的两者必须类型一致
 6、\() 把一个变量搞成string
 7、Optionals （？） 仅仅适用于Swift，并且被广泛使用
-8、Implicitly Unwrapped Optionals （！）
+8、Implicitly Unwrapped Optionals （！）为什么？有时候初始化的是时候没有初始值，但是稍后一定会有。
+9、Tuples 把多个值组合成一个。
+10、Number Types  运算符号两边的数据类型必须一致
+
+流程控制
+for for-in
+
+if else 1或者非空数组不可以在if中作为判断，必须遵从BooleanType协议
+if 1 {} 是错误的，必须if Bool（1）{}才OK
+
+switch
+1、对于每一个case可以不加break；
+2、还可以一次检查多个值，同|| case 2，3，4：；
+3、还可以检测range，case 2...6；
+4、还可以使用tuples，还可以使用_来符合任何事，_means anything。
+“var geo = (2,4)
+switch geo {
+//(anything, 5)
+case (_,5):print("It's (Something,5)")
+case (5,_):print("It's (5,Something)")
+case (1...3,_):print("It's (1 or 2 or 3, Something)")
+case (1...3,3...6):print("This would have matched but Swift already found a match")
+default:print("It's something else")
+}”
+5、fallthrough 继续检查下一个case
+6、Labeled Statements
+var mystery = 5
+rangeLoop: for i in 1...8 {
+    switch i {
+    case mystery:
+        print("The mystery number was \(i)")
+        break rangeLoop
+    case 3:
+        print("was three. You have not hit the mystery number yet.")
+    default:
+        print("was some other number \(i)")
+    }
+}
+跳出循环
+
+Collecting Your Data：Arrays and Dictionaries
+Array
+1、var quickerArray = [Int]()
+   var tmpArray:Array<Int> = Array<Int>()
+   var arrayOfInts = [1,2,3,4];
+   var mixedArray:[AnyObject] = [1,1.2,1,"b"];
+2、var mutableArray = [1,2,3,4]
+   let immutableArray = [1,2,3,4,5]
+3、遍历数组
+for (i,animal) in raining.enumerate {
+    print("Animal number \(i) is the \(animal)")
+}
+4、var mapRow1 = [Int](count:10,repeatedValue:0) // [0,0,0,0,0,0,0,0,0,0,0]
+5、map = [] // empty an array
+
+Dictionaries
+1、创建 var vehicles = Dictionary<String,String>()
+2、people = [:]; empty a dictionary
