@@ -1,0 +1,166 @@
+代码的结构
+表达业务逻辑的代码
+对用户提供访问并保存业务逻辑运行结果的代码
+图1是实现上的框架图
+逻辑只允许存在于Business中，Service、Glue Code、Repository都不允许存在业务逻辑。Service、Glue Code、Repository里面的代码是严格的顺序调用。
+这么做的好处：
+1、Service、Glue Code、Repository里面的代码是严格的顺序调用，那么这些代码只要做连通性测试即可，不需要单元测试。因为这些代码都需要和很多上下文打交道，很难做单元测试。这样才算是真正的组合。
+2、Business不访问任何上下文，不访问任何具体的设备，所以这部分代码是非常容易些单元测试的，并且单元测试必须100%覆盖。
+3、Repository很容易按照存储设备本身的最小访问粒度来完成工作，比如DB，完全可以做到单表访问。
+
+参考
+从架构的角度看，如何写好代码？https://mp.weixin.qq.com/s?__biz=MjM5MDE0Mjc4MA==&mid=403485970&idx=2&sn=5af6adc927d32149bbad1b4191840bf1&scene=1&srcid=0417DlEI0Z4LGDPpZqe6ru4C&key=b28b03434249256b89756dc74192c324683cc92ecef8c92e782bc10849b939e25ce98707bbab24446169e7b592d9b83a&ascene=0&uin=MTk3MTI5MzAwOQ%3D%3D&devicetype=iMac+MacBookPro11%2C1+OSX+OSX+10.11.4+build(15E65)&version=11020201&pass_ticket=Bwxp%2FeJ8HfkYyMiV7NRmeFvmvauHlNvoaTdxad3vLIp2rz5QxPuxWM5jHNedkGUU
+
+
+1、依赖注入
+   配置文件依赖注入
+   反射依赖注入
+2、组件化
+3、开闭原则
+4、依赖获取
+
+依赖注入之依赖获取的代码 （配置文件的依赖注入）
+//定义一个主题接口，让所有主题都实现它
+@protocol ItfThemeFactory <NSObject>
+- (void)drawing;
+@end
+//主题
+@implementation SpringFactory <ItfThemeFactory>
+- (void)drawing {
+ //drawing theme...
+ }
+@end
+@implementation SummerFactory <ItfThemeFactory>
+- (void)drawing {
+  //drawing theme...
+}
+@end
+  //主题工厂
+Animator@interface ThemeFactoryAnimator : NSObject
+@property (strong, nonatomic) id<ItfThemeFactory> themeFactory;
+@end
+@implementation ThemeFactoryAnimator
+- (id<ItfTheme>)themeFactory {
+   NSString *path = [[NSBundle mainBundle] pathForResource:@"theme" ofType:@"plist"];
+   NSDictionary *dict = [[NSDictionary alloc] initWithContentsOfFile:path];
+   NSString *theme = [dict objectForKey:@"theme"];
+  if ([theme isEqualToString:@"spring"]) {
+        _themeFactory = [[SpringFactory alloc] init];
+  } else if ([theme isEqualToString:@"summer"]) {
+        _themeFactory = [[SummerFactory alloc] init];
+  } else {
+   //assert
+  }
+}
+@end
+
+//在执行方法里我们要做什么？
+- (void)work {
+    ThemeFactoryAnimator *tfAnimator = [ThemeFactoryAnimator alloc] init];    id<ItfThemeFactory> themeFactory = tfAnimator.themeFactory;
+    [themeFactory drawing];
+}
+
+5、面向接口编程
+//首先我们定义一个交通工具接口
+@protocol Transportation <NSObject>
+- (void)drinking;
+- (void)freight;
+@end
+
+//还有一个发光体接口
+@protocol Irradiative <NSObject>
+- (void)shine;
+@end
+//当然drinking就代表补需，汽车飞机的内部实现就是加油，马牛的内部实现就是吃草喝水什么的。freight就是装载
+//当上帝创造马的时候，让马遵守并实现这个接口:
+@implementation Horse <Transportation>
+- (void)drinking {
+//吃草，喝果汁
+}
+
+- (void)freight {
+//停住脚步，或者半蹲，让友好的人类骑上去
+}
+@end
+
+//当人类创造飞机的时候，惨了，不知道去哪里找上帝沟通，又怕疏漏了什么影响了这个世界的运行规律？没事上帝给我们留下了Transportation接口，而且飞机同时还要遵守发光体接口Irradiative，于是：
+@implementation Aircraft <Transportation, Irradiative>
+- (void)drinking {
+//加油, 92的
+}
+
+- (void)freight {
+//降落，熄火，开舱门
+}
+
+- (void)shine {
+//燃烧汽油，生物质能转化成电能，照你
+}
+@end
+
+相对意义上的接口思想
+#pragma mark - 面向对象传统的方式：
+//服务实现者 甲方 ，编写一个服务类
+@interface MusicLoadingProtocolObj()
+@end
+@implementation MusicLoadingProtocolObj
+- (void)requestWithUrl:(NSURL *)url Param:(NSDictionary *)param {
+//do something
+}
+@end
+//服务使用者 乙方 ，通过接口获取服务类
+#import "MusicLoadingProtocolObj.h"
+@interface Client()
+@end
+@implementation Client
+- (void)work {
+    MusicLoadingProtocolObj *musicLoadingProtocolObj = [MusicLoadingProtocolObj alloc] init];
+    [musicLoadingProtocolObj requestWithUrl:url Param:param];
+}@end
+//当然，在这里我们已经应用了构造器注入的DI思想。或者我们如果使用属性注入？那么当然就没那么直观，没有贯彻接口编程的思想。
+#pragma mark - 接下来就是面向接口(POP)的做法：
+//首先，定义一个ServiceProtocol
+@protocol MusicLoadingProtocol <NSObject>
+- (void)requestWithUrl:(NSURL *)url Param:(NSDictionary *)param;
+@end
+//甲方
+@interface MusicLoadingProtocolObj() <MusicLoadingProtocol>
+@end
+@implementation MusicLoadingProtocolObj
+- (void)requestWithUrl:(NSURL *)url Param:(NSDictionary *)param {
+//do something
+}
+@end
+//乙方方法一
+@interface Client()
+@end
+@implementation Client
+- (void)work {
+    id<MusicLoadingProtocol> service = [[JSObjection defaultInjector] getObject:@protocol(MusicLoadingProtocol)];
+    [service requestWithUrl:url Param:param];
+}
+@end
+
+//乙方方法二
+@interface Client()
+@end
+@implementation Client
+- (void)work {
+NSString *clazzName = @"MusicLoadingProtocol";
+[clazzName stringByAppendingString:@"Obj"];
+Class serviceClazz = NSClassFromString(clazzName);
+id<MusicLoadingProtocol> service = [serviceClazz alloc] init];
+[service requestWithUrl:url Param:param];
+}
+@end
+
+
+参考
+谈谈依赖注入与面向接口编程思想
+https://mp.weixin.qq.com/s?__biz=MzA4MjI0NjczNQ==&mid=2652365078&idx=1&sn=44675531a33212674691b1e543267c91&scene=1&srcid=0417JrMK7d8zoiaSEGJV82rB&key=b28b03434249256bf067c78aba75519424286e23c3bbda7598f7ecf4a35ac019d15077cef08901eb3ba5122adabbb6a8&ascene=0&uin=MTk3MTI5MzAwOQ%3D%3D&devicetype=iMac+MacBookPro11%2C1+OSX+OSX+10.11.4+build(15E65)&version=11020201&pass_ticket=Bwxp%2FeJ8HfkYyMiV7NRmeFvmvauHlNvoaTdxad3vLIp2rz5QxPuxWM5jHNedkGUU
+
+
+基础知识
+1、依赖注入
+2、开闭原则 对扩展开放，对修改关闭。
+3、objection
