@@ -79,3 +79,19 @@ for (i,animal) in raining.enumerate {
 Dictionaries
 1、创建 var vehicles = Dictionary<String,String>()
 2、people = [:]; empty a dictionary
+
+Functions
+1、External Parameter Names
+func someFunction(externalName internalName: parameterType) -> returnType {
+  // Code goes here
+}
+2、Default Parameter Values
+3、Variadic Parameters
+func average(numbers numbers: Int...) -> Int {
+    var total = 0
+    for n in numbers {
+        total += n
+    }
+    return total / numbers.count
+}
+4、
