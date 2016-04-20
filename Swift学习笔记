@@ -94,4 +94,7 @@ func average(numbers numbers: Int...) -> Int {
     }
     return total / numbers.count
 }
-4、
+4、In-Out Parameters （类似于引用）&
+   允许从函数范围外传值进去也可以在函数内部修改。
+5、Function as Types
+   
