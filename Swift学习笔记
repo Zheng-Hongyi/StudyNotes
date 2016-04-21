@@ -97,4 +97,31 @@ func average(numbers numbers: Int...) -> Int {
 4、In-Out Parameters （类似于引用）&
    允许从函数范围外传值进去也可以在函数内部修改。
 5、Function as Types
-   
+   A function is a type in Swift.
+
+
+Structuring Code: Enums, Structs, and Classes
+1、结构体在作为参数被传送的时候会新创建或者是被复制，类传的是引用。比如你的好朋友借你的东西，如果要的东西是一个结构体，
+你会利用3D打印技术给你的朋友打印一个新的给他；如果是一个类，你会给他一个地址去找到那个东西。
+2、Enums
+enum Suit {
+    //... enum implementation goes here
+}
+Associated Values
+Raw Values
+3、Structs  Structs are copied when they are passed around. This means that you will never have the same instance of a struct.
+   结构体和类共同点：a、属性
+   b、方法
+   c、both provide subscripts to give access to their values.
+   d、构造函数
+   e、Both can be extended to provide
+    additional functionality beyond a default implementation.
+   f、都可以实现协议
+   不同
+   a、类可以继承
+   b、类有类型检查
+   c、结构体有析构函数
+   d、
+
+   Mutating Methods 在这种方法里面才可以更改结构体Self的属性
+4、
