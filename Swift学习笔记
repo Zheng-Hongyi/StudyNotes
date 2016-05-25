@@ -127,3 +127,8 @@ Raw Values
 4、Class
 5、SpriteKit (暂时忽略)
 6、
+
+
+
+Using Protocols and Protocol Extensions
+Protocol:可以用作参数、返回值、变量、常量、容器，就是不能用作实例
