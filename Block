@@ -1,0 +1,14 @@
+Block
+
+内存知识
+栈区
+堆区
+
+Block
+栈区对象
+执行过程：1、copy 2、非copy的
+对Block使用retain？a、有问题 b、没问题
+使用场景：a、创建一个block在别的类里面使用 b、创建一个Block在类内不同的scope使用，copy并且用完的时候要nil
+循环引用
+
+__block 是如何工作的？
