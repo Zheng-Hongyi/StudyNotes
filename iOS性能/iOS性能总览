@@ -1,0 +1,21 @@
+iOS 性能概览
+Performance Metrics
+1、Memory
+2、Power Consumption
+3、Initialization Time（）
+4、Execution Speed
+5、Responsiveness
+6、Local Storage
+7、Interoperability (UIActivityViewController、 deep linking、MultipeerConnectivity)
+8、Network Condition （各种网络条件下需要工作：1、High bandwidth and persistent network
+  2、Low bandwidth but persistent network 3、High bandwidth but sporadic network 4、Low
+  bandwidth and sporadic network 5、No network）
+9、Bandwidth
+10、Data Refresh
+11、Multiuser Support
+12、Single Sign-on
+13、Security
+14、Crashes
+
+App Profiling
+1、
