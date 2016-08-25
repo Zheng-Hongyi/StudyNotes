@@ -125,6 +125,13 @@ Raw Values
 
    Mutating Methods 在这种方法里面才可以更改结构体Self的属性
 4、Class
+5、SpriteKit (暂时忽略)
+6、
+
+
+
+Using Protocols and Protocol Extensions
+Protocol:可以用作参数、返回值、变量、常量、容器，就是不能用作实例
 5、Reusable Code:Closures (闭包)
   Syntax
   var alphabetical = {(s1:String, s2:String) -> Bool in s1 < s2}
